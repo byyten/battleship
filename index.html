@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>battleship</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script defer src="./index.js"></script>
+</head>
+<body>
+    
+    <div class="game">
+        <table class="game">
+            <tr class="turns">
+                <td class="data"></td>
+                <td class="turns"></td>
+            </tr>
+            <tr class="row">
+                <td class="data"></td>
+                <td class="turn"></td>
+            </tr>
+            <tr class="row">
+                <td class="data"></td>
+                <td class="turn"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="boards">
+
+        <div class="combatent good">
+            <table class="combatent good">
+                <tr class="row">
+                    <td class="_name">Combatent</td>
+                    <td class="name"></td>
+                </tr>
+                <tr class="row">
+                    <td class="_name">Deployed</td>
+                    <td class="deployed"></td>
+                </tr>
+                <tr class="row">
+                    <td class="">Force Strength</td>
+                    <td class="strength"></td>
+                </tr>
+                <tr class="row">
+                    <td class="col">Hits</td>
+                    <td class="hits"></td>
+                </tr>
+            </table>
+
+            <div class="grids">
+                <table class="grid good">
+                    <tr class="header r0">
+                        <td class="rowLabel col0"></td>
+                        <td class="colLabel col1">1</td>
+                        <td class="colLabel col2">2</td>
+                        <td class="colLabel col3">3</td>
+                        <td class="colLabel col4">4</td>
+                        <td class="colLabel col5">5</td>
+                        <td class="colLabel col6">6</td>
+                        <td class="colLabel col7">7</td>
+                        <td class="colLabel col8">8</td>
+                        <td class="colLabel col9">9</td>
+                        <td class="colLabel col10">10</td>
+                    </tr>
+                    <tr class="gridSq r1">
+                        <td class="rowLabel row1">A</td>
+                        <td class="gridSq a1"></td>
+                        <td class="gridSq a2"></td>
+                        <td class="gridSq a3"></td>
+                        <td class="gridSq a4"></td>
+                        <td class="gridSq a5"></td>
+                        <td class="gridSq a6"></td>
+                        <td class="gridSq a7"></td>
+                        <td class="gridSq a8"></td>
+                        <td class="gridSq a9"></td>
+                        <td class="gridSq a10"></td>
+                    </tr>
+                    <tr class="gridSq r2">
+                        <td class="rowLabel row2">B</td>
+                        <td class="gridSq b1"></td>
+                        <td class="gridSq b2"></td>
+                        <td class="gridSq b3"></td>
+                        <td class="gridSq b4"></td>
+                        <td class="gridSq b5"></td>
+                        <td class="gridSq b6"></td>
+                        <td class="gridSq b7"></td>
+                        <td class="gridSq b8"></td>
+                        <td class="gridSq b9"></td>
+                        <td class="gridSq b10"></td>
+                    </tr>
+                    <tr class="gridSq r3">
+                        <td class="rowLabel row3">C</td>
+                        <td class="gridSq c1"></td>
+                        <td class="gridSq c2"></td>
+                        <td class="gridSq c3"></td>
+                        <td class="gridSq c4"></td>
+                        <td class="gridSq c5"></td>
+                        <td class="gridSq c6"></td>
+                        <td class="gridSq c7"></td>
+                        <td class="gridSq c8"></td>
+                        <td class="gridSq c9"></td>
+                        <td class="gridSq c10"></td>
+                    </tr>
+                    <tr class="gridSq r4">
+                        <td class="rowLabel row4">D</td>
+                        <td class="gridSq d1"></td>
+                        <td class="gridSq d2"></td>
+                        <td class="gridSq d3"></td>
+                        <td class="gridSq d4"></td>
+                        <td class="gridSq d5"></td>
+                        <td class="gridSq d6"></td>
+                        <td class="gridSq d7"></td>
+                        <td class="gridSq d8"></td>
+                        <td class="gridSq d9"></td>
+                        <td class="gridSq d10"></td>
+                    </tr>
+                    <tr class="gridSq r5">
+                        <td class="rowLabel row5">E</td>
+                        <td class="gridSq e1"></td>
+                        <td class="gridSq e2"></td>
+                        <td class="gridSq e3"></td>
+                        <td class="gridSq e4"></td>
+                        <td class="gridSq e5"></td>
+                        <td class="gridSq e6"></td>
+                        <td class="gridSq e7"></td>
+                        <td class="gridSq e8"></td>
+                        <td class="gridSq e9"></td>
+                        <td class="gridSq e10"></td>
+                    </tr>
+                    <tr class="gridSq r6">
+                        <td class="rowLabel row6">F</td>
+                        <td class="gridSq f1"></td>
+                        <td class="gridSq f2"></td>
+                        <td class="gridSq f3"></td>
+                        <td class="gridSq f4"></td>
+                        <td class="gridSq f5"></td>
+                        <td class="gridSq f6"></td>
+                        <td class="gridSq f7"></td>
+                        <td class="gridSq f8"></td>
+                        <td class="gridSq f9"></td>
+                        <td class="gridSq f10"></td>
+                    </tr>
+                    <tr class="gridSq r7">
+                        <td class="rowLabel row7">G</td>
+                        <td class="gridSq g1"></td>
+                        <td class="gridSq g2"></td>
+                        <td class="gridSq g3"></td>
+                        <td class="gridSq g4"></td>
+                        <td class="gridSq g5"></td>
+                        <td class="gridSq g6"></td>
+                        <td class="gridSq g7"></td>
+                        <td class="gridSq g8"></td>
+                        <td class="gridSq g9"></td>
+                        <td class="gridSq g10"></td>
+                    </tr>
+                    <tr class="gridSq r8">
+                        <td class="rowLabel row8">H</td>
+                        <td class="gridSq h1"></td>
+                        <td class="gridSq h2"></td>
+                        <td class="gridSq h3"></td>
+                        <td class="gridSq h4"></td>
+                        <td class="gridSq h5"></td>
+                        <td class="gridSq h6"></td>
+                        <td class="gridSq h7"></td>
+                        <td class="gridSq h8"></td>
+                        <td class="gridSq h9"></td>
+                        <td class="gridSq h10"></td>
+                    </tr>
+                    <tr class="gridSq r9">
+                        <td class="rowLabel row9">I</td>
+                        <td class="gridSq i1"></td>
+                        <td class="gridSq i2"></td>
+                        <td class="gridSq i3"></td>
+                        <td class="gridSq i4"></td>
+                        <td class="gridSq i5"></td>
+                        <td class="gridSq i6"></td>
+                        <td class="gridSq i7"></td>
+                        <td class="gridSq i8"></td>
+                        <td class="gridSq i9"></td>
+                        <td class="gridSq i10"></td>
+                    </tr>
+                    <tr class="gridSq r10">
+                        <td class="rowLabel row10">J</td>
+                        <td class="gridSq j1"></td>
+                        <td class="gridSq j2"></td>
+                        <td class="gridSq j3"></td>
+                        <td class="gridSq j4"></td>
+                        <td class="gridSq j5"></td>
+                        <td class="gridSq j6"></td>
+                        <td class="gridSq j7"></td>
+                        <td class="gridSq j8"></td>
+                        <td class="gridSq j9"></td>
+                        <td class="gridSq j10"></td>
+                    </tr>
+                </table>
+                <table class="deploy good">
+                    <tr class="header r0">
+                        <td class="rowLabel col0"></td>
+                        <td class="colLabel col1">1</td>
+                        <td class="colLabel col2">2</td>
+                        <td class="colLabel col3">3</td>
+                        <td class="colLabel col4">4</td>
+                        <td class="colLabel col5">5</td>
+                        <td class="colLabel col6">6</td>
+                        <td class="colLabel col7">7</td>
+                        <td class="colLabel col8">8</td>
+                        <td class="colLabel col9">9</td>
+                        <td class="colLabel col10">10</td>
+                    </tr>
+                    <tr class="gridSq r1">
+                        <td class="rowLabel row1">A</td>
+                        <td class="gridSq a1"></td>
+                        <td class="gridSq a2"></td>
+                        <td class="gridSq a3"></td>
+                        <td class="gridSq a4"></td>
+                        <td class="gridSq a5"></td>
+                        <td class="gridSq a6"></td>
+                        <td class="gridSq a7"></td>
+                        <td class="gridSq a8"></td>
+                        <td class="gridSq a9"></td>
+                        <td class="gridSq a10"></td>
+                    </tr>
+                    <tr class="gridSq r2">
+                        <td class="rowLabel row2">B</td>
+                        <td class="gridSq b1"></td>
+                        <td class="gridSq b2"></td>
+                        <td class="gridSq b3"></td>
+                        <td class="gridSq b4"></td>
+                        <td class="gridSq b5"></td>
+                        <td class="gridSq b6"></td>
+                        <td class="gridSq b7"></td>
+                        <td class="gridSq b8"></td>
+                        <td class="gridSq b9"></td>
+                        <td class="gridSq b10"></td>
+                    </tr>
+                    <tr class="gridSq r3">
+                        <td class="rowLabel row3">C</td>
+                        <td class="gridSq c1"></td>
+                        <td class="gridSq c2"></td>
+                        <td class="gridSq c3"></td>
+                        <td class="gridSq c4"></td>
+                        <td class="gridSq c5"></td>
+                        <td class="gridSq c6"></td>
+                        <td class="gridSq c7"></td>
+                        <td class="gridSq c8"></td>
+                        <td class="gridSq c9"></td>
+                        <td class="gridSq c10"></td>
+                    </tr>
+                    <tr class="gridSq r4">
+                        <td class="rowLabel row4">D</td>
+                        <td class="gridSq d1"></td>
+                        <td class="gridSq d2"></td>
+                        <td class="gridSq d3"></td>
+                        <td class="gridSq d4"></td>
+                        <td class="gridSq d5"></td>
+                        <td class="gridSq d6"></td>
+                        <td class="gridSq d7"></td>
+                        <td class="gridSq d8"></td>
+                        <td class="gridSq d9"></td>
+                        <td class="gridSq d10"></td>
+                    </tr>
+                    <tr class="gridSq r5">
+                        <td class="rowLabel row5">E</td>
+                        <td class="gridSq e1"></td>
+                        <td class="gridSq e2"></td>
+                        <td class="gridSq e3"></td>
+                        <td class="gridSq e4"></td>
+                        <td class="gridSq e5"></td>
+                        <td class="gridSq e6"></td>
+                        <td class="gridSq e7"></td>
+                        <td class="gridSq e8"></td>
+                        <td class="gridSq e9"></td>
+                        <td class="gridSq e10"></td>
+                    </tr>
+                    <tr class="gridSq r6">
+                        <td class="rowLabel row6">F</td>
+                        <td class="gridSq f1"></td>
+                        <td class="gridSq f2"></td>
+                        <td class="gridSq f3"></td>
+                        <td class="gridSq f4"></td>
+                        <td class="gridSq f5"></td>
+                        <td class="gridSq f6"></td>
+                        <td class="gridSq f7"></td>
+                        <td class="gridSq f8"></td>
+                        <td class="gridSq f9"></td>
+                        <td class="gridSq f10"></td>
+                    </tr>
+                    <tr class="gridSq r7">
+                        <td class="rowLabel row7">G</td>
+                        <td class="gridSq g1"></td>
+                        <td class="gridSq g2"></td>
+                        <td class="gridSq g3"></td>
+                        <td class="gridSq g4"></td>
+                        <td class="gridSq g5"></td>
+                        <td class="gridSq g6"></td>
+                        <td class="gridSq g7"></td>
+                        <td class="gridSq g8"></td>
+                        <td class="gridSq g9"></td>
+                        <td class="gridSq g10"></td>
+                    </tr>
+                    <tr class="gridSq r8">
+                        <td class="rowLabel row8">H</td>
+                        <td class="gridSq h1"></td>
+                        <td class="gridSq h2"></td>
+                        <td class="gridSq h3"></td>
+                        <td class="gridSq h4"></td>
+                        <td class="gridSq h5"></td>
+                        <td class="gridSq h6"></td>
+                        <td class="gridSq h7"></td>
+                        <td class="gridSq h8"></td>
+                        <td class="gridSq h9"></td>
+                        <td class="gridSq h10"></td>
+                    </tr>
+                    <tr class="gridSq r9">
+                        <td class="rowLabel row9">I</td>
+                        <td class="gridSq i1"></td>
+                        <td class="gridSq i2"></td>
+                        <td class="gridSq i3"></td>
+                        <td class="gridSq i4"></td>
+                        <td class="gridSq i5"></td>
+                        <td class="gridSq i6"></td>
+                        <td class="gridSq i7"></td>
+                        <td class="gridSq i8"></td>
+                        <td class="gridSq i9"></td>
+                        <td class="gridSq i10"></td>
+                    </tr>
+                    <tr class="gridSq r10">
+                        <td class="rowLabel row10">J</td>
+                        <td class="gridSq j1"></td>
+                        <td class="gridSq j2"></td>
+                        <td class="gridSq j3"></td>
+                        <td class="gridSq j4"></td>
+                        <td class="gridSq j5"></td>
+                        <td class="gridSq j6"></td>
+                        <td class="gridSq j7"></td>
+                        <td class="gridSq j8"></td>
+                        <td class="gridSq j9"></td>
+                        <td class="gridSq j10"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>  
+
+        <div class="combatent evil">
+            <table class="combatent evil">
+                <tr class="row">
+                    <td class="_name">Combatent</td>
+                    <td class="name"></td>
+                </tr>
+                <tr class="row">
+                    <td class="_name">Deployed</td>
+                    <td class="deployed"></td>
+                </tr>
+                <tr class="row">
+                    <td class="">Force Strength</td>
+                    <td class="strength"></td>
+                </tr>
+                <tr class="row">
+                    <td class="col">Hits</td>
+                    <td class="hits"></td>
+                </tr>
+            </table>
+
+            <div class="grids">
+                <table class="grid evil">
+                    <tr class="header r0">
+                        <td class="rowLabel col0"></td>
+                        <td class="colLabel col1">1</td>
+                        <td class="colLabel col2">2</td>
+                        <td class="colLabel col3">3</td>
+                        <td class="colLabel col4">4</td>
+                        <td class="colLabel col5">5</td>
+                        <td class="colLabel col6">6</td>
+                        <td class="colLabel col7">7</td>
+                        <td class="colLabel col8">8</td>
+                        <td class="colLabel col9">9</td>
+                        <td class="colLabel col10">10</td>
+                    </tr>
+                    <tr class="gridSq r1">
+                        <td class="rowLabel row1">A</td>
+                        <td class="gridSq a1"></td>
+                        <td class="gridSq a2"></td>
+                        <td class="gridSq a3"></td>
+                        <td class="gridSq a4"></td>
+                        <td class="gridSq a5"></td>
+                        <td class="gridSq a6"></td>
+                        <td class="gridSq a7"></td>
+                        <td class="gridSq a8"></td>
+                        <td class="gridSq a9"></td>
+                        <td class="gridSq a10"></td>
+                    </tr>
+                    <tr class="gridSq r2">
+                        <td class="rowLabel row2">B</td>
+                        <td class="gridSq b1"></td>
+                        <td class="gridSq b2"></td>
+                        <td class="gridSq b3"></td>
+                        <td class="gridSq b4"></td>
+                        <td class="gridSq b5"></td>
+                        <td class="gridSq b6"></td>
+                        <td class="gridSq b7"></td>
+                        <td class="gridSq b8"></td>
+                        <td class="gridSq b9"></td>
+                        <td class="gridSq b10"></td>
+                    </tr>
+                    <tr class="gridSq r3">
+                        <td class="rowLabel row3">C</td>
+                        <td class="gridSq c1"></td>
+                        <td class="gridSq c2"></td>
+                        <td class="gridSq c3"></td>
+                        <td class="gridSq c4"></td>
+                        <td class="gridSq c5"></td>
+                        <td class="gridSq c6"></td>
+                        <td class="gridSq c7"></td>
+                        <td class="gridSq c8"></td>
+                        <td class="gridSq c9"></td>
+                        <td class="gridSq c10"></td>
+                    </tr>
+                    <tr class="gridSq r4">
+                        <td class="rowLabel row4">D</td>
+                        <td class="gridSq d1"></td>
+                        <td class="gridSq d2"></td>
+                        <td class="gridSq d3"></td>
+                        <td class="gridSq d4"></td>
+                        <td class="gridSq d5"></td>
+                        <td class="gridSq d6"></td>
+                        <td class="gridSq d7"></td>
+                        <td class="gridSq d8"></td>
+                        <td class="gridSq d9"></td>
+                        <td class="gridSq d10"></td>
+                    </tr>
+                    <tr class="gridSq r5">
+                        <td class="rowLabel row5">E</td>
+                        <td class="gridSq e1"></td>
+                        <td class="gridSq e2"></td>
+                        <td class="gridSq e3"></td>
+                        <td class="gridSq e4"></td>
+                        <td class="gridSq e5"></td>
+                        <td class="gridSq e6"></td>
+                        <td class="gridSq e7"></td>
+                        <td class="gridSq e8"></td>
+                        <td class="gridSq e9"></td>
+                        <td class="gridSq e10"></td>
+                    </tr>
+                    <tr class="gridSq r6">
+                        <td class="rowLabel row6">F</td>
+                        <td class="gridSq f1"></td>
+                        <td class="gridSq f2"></td>
+                        <td class="gridSq f3"></td>
+                        <td class="gridSq f4"></td>
+                        <td class="gridSq f5"></td>
+                        <td class="gridSq f6"></td>
+                        <td class="gridSq f7"></td>
+                        <td class="gridSq f8"></td>
+                        <td class="gridSq f9"></td>
+                        <td class="gridSq f10"></td>
+                    </tr>
+                    <tr class="gridSq r7">
+                        <td class="rowLabel row7">G</td>
+                        <td class="gridSq g1"></td>
+                        <td class="gridSq g2"></td>
+                        <td class="gridSq g3"></td>
+                        <td class="gridSq g4"></td>
+                        <td class="gridSq g5"></td>
+                        <td class="gridSq g6"></td>
+                        <td class="gridSq g7"></td>
+                        <td class="gridSq g8"></td>
+                        <td class="gridSq g9"></td>
+                        <td class="gridSq g10"></td>
+                    </tr>
+                    <tr class="gridSq r8">
+                        <td class="rowLabel row8">H</td>
+                        <td class="gridSq h1"></td>
+                        <td class="gridSq h2"></td>
+                        <td class="gridSq h3"></td>
+                        <td class="gridSq h4"></td>
+                        <td class="gridSq h5"></td>
+                        <td class="gridSq h6"></td>
+                        <td class="gridSq h7"></td>
+                        <td class="gridSq h8"></td>
+                        <td class="gridSq h9"></td>
+                        <td class="gridSq h10"></td>
+                    </tr>
+                    <tr class="gridSq r9">
+                        <td class="rowLabel row9">I</td>
+                        <td class="gridSq i1"></td>
+                        <td class="gridSq i2"></td>
+                        <td class="gridSq i3"></td>
+                        <td class="gridSq i4"></td>
+                        <td class="gridSq i5"></td>
+                        <td class="gridSq i6"></td>
+                        <td class="gridSq i7"></td>
+                        <td class="gridSq i8"></td>
+                        <td class="gridSq i9"></td>
+                        <td class="gridSq i10"></td>
+                    </tr>
+                    <tr class="gridSq r10">
+                        <td class="rowLabel row10">J</td>
+                        <td class="gridSq j1"></td>
+                        <td class="gridSq j2"></td>
+                        <td class="gridSq j3"></td>
+                        <td class="gridSq j4"></td>
+                        <td class="gridSq j5"></td>
+                        <td class="gridSq j6"></td>
+                        <td class="gridSq j7"></td>
+                        <td class="gridSq j8"></td>
+                        <td class="gridSq j9"></td>
+                        <td class="gridSq j10"></td>
+                    </tr>
+                </table>
+                <table class="deploy evil">
+                    <tr class="header r0">
+                        <td class="rowLabel col0"></td>
+                        <td class="colLabel col1">1</td>
+                        <td class="colLabel col2">2</td>
+                        <td class="colLabel col3">3</td>
+                        <td class="colLabel col4">4</td>
+                        <td class="colLabel col5">5</td>
+                        <td class="colLabel col6">6</td>
+                        <td class="colLabel col7">7</td>
+                        <td class="colLabel col8">8</td>
+                        <td class="colLabel col9">9</td>
+                        <td class="colLabel col10">10</td>
+                    </tr>
+                    <tr class="gridSq r1">
+                        <td class="rowLabel row1">A</td>
+                        <td class="gridSq a1"></td>
+                        <td class="gridSq a2"></td>
+                        <td class="gridSq a3"></td>
+                        <td class="gridSq a4"></td>
+                        <td class="gridSq a5"></td>
+                        <td class="gridSq a6"></td>
+                        <td class="gridSq a7"></td>
+                        <td class="gridSq a8"></td>
+                        <td class="gridSq a9"></td>
+                        <td class="gridSq a10"></td>
+                    </tr>
+                    <tr class="gridSq r2">
+                        <td class="rowLabel row2">B</td>
+                        <td class="gridSq b1"></td>
+                        <td class="gridSq b2"></td>
+                        <td class="gridSq b3"></td>
+                        <td class="gridSq b4"></td>
+                        <td class="gridSq b5"></td>
+                        <td class="gridSq b6"></td>
+                        <td class="gridSq b7"></td>
+                        <td class="gridSq b8"></td>
+                        <td class="gridSq b9"></td>
+                        <td class="gridSq b10"></td>
+                    </tr>
+                    <tr class="gridSq r3">
+                        <td class="rowLabel row3">C</td>
+                        <td class="gridSq c1"></td>
+                        <td class="gridSq c2"></td>
+                        <td class="gridSq c3"></td>
+                        <td class="gridSq c4"></td>
+                        <td class="gridSq c5"></td>
+                        <td class="gridSq c6"></td>
+                        <td class="gridSq c7"></td>
+                        <td class="gridSq c8"></td>
+                        <td class="gridSq c9"></td>
+                        <td class="gridSq c10"></td>
+                    </tr>
+                    <tr class="gridSq r4">
+                        <td class="rowLabel row4">D</td>
+                        <td class="gridSq d1"></td>
+                        <td class="gridSq d2"></td>
+                        <td class="gridSq d3"></td>
+                        <td class="gridSq d4"></td>
+                        <td class="gridSq d5"></td>
+                        <td class="gridSq d6"></td>
+                        <td class="gridSq d7"></td>
+                        <td class="gridSq d8"></td>
+                        <td class="gridSq d9"></td>
+                        <td class="gridSq d10"></td>
+                    </tr>
+                    <tr class="gridSq r5">
+                        <td class="rowLabel row5">E</td>
+                        <td class="gridSq e1"></td>
+                        <td class="gridSq e2"></td>
+                        <td class="gridSq e3"></td>
+                        <td class="gridSq e4"></td>
+                        <td class="gridSq e5"></td>
+                        <td class="gridSq e6"></td>
+                        <td class="gridSq e7"></td>
+                        <td class="gridSq e8"></td>
+                        <td class="gridSq e9"></td>
+                        <td class="gridSq e10"></td>
+                    </tr>
+                    <tr class="gridSq r6">
+                        <td class="rowLabel row6">F</td>
+                        <td class="gridSq f1"></td>
+                        <td class="gridSq f2"></td>
+                        <td class="gridSq f3"></td>
+                        <td class="gridSq f4"></td>
+                        <td class="gridSq f5"></td>
+                        <td class="gridSq f6"></td>
+                        <td class="gridSq f7"></td>
+                        <td class="gridSq f8"></td>
+                        <td class="gridSq f9"></td>
+                        <td class="gridSq f10"></td>
+                    </tr>
+                    <tr class="gridSq r7">
+                        <td class="rowLabel row7">G</td>
+                        <td class="gridSq g1"></td>
+                        <td class="gridSq g2"></td>
+                        <td class="gridSq g3"></td>
+                        <td class="gridSq g4"></td>
+                        <td class="gridSq g5"></td>
+                        <td class="gridSq g6"></td>
+                        <td class="gridSq g7"></td>
+                        <td class="gridSq g8"></td>
+                        <td class="gridSq g9"></td>
+                        <td class="gridSq g10"></td>
+                    </tr>
+                    <tr class="gridSq r8">
+                        <td class="rowLabel row8">H</td>
+                        <td class="gridSq h1"></td>
+                        <td class="gridSq h2"></td>
+                        <td class="gridSq h3"></td>
+                        <td class="gridSq h4"></td>
+                        <td class="gridSq h5"></td>
+                        <td class="gridSq h6"></td>
+                        <td class="gridSq h7"></td>
+                        <td class="gridSq h8"></td>
+                        <td class="gridSq h9"></td>
+                        <td class="gridSq h10"></td>
+                    </tr>
+                    <tr class="gridSq r9">
+                        <td class="rowLabel row9">I</td>
+                        <td class="gridSq i1"></td>
+                        <td class="gridSq i2"></td>
+                        <td class="gridSq i3"></td>
+                        <td class="gridSq i4"></td>
+                        <td class="gridSq i5"></td>
+                        <td class="gridSq i6"></td>
+                        <td class="gridSq i7"></td>
+                        <td class="gridSq i8"></td>
+                        <td class="gridSq i9"></td>
+                        <td class="gridSq i10"></td>
+                    </tr>
+                    <tr class="gridSq r10">
+                        <td class="rowLabel row10">J</td>
+                        <td class="gridSq j1"></td>
+                        <td class="gridSq j2"></td>
+                        <td class="gridSq j3"></td>
+                        <td class="gridSq j4"></td>
+                        <td class="gridSq j5"></td>
+                        <td class="gridSq j6"></td>
+                        <td class="gridSq j7"></td>
+                        <td class="gridSq j8"></td>
+                        <td class="gridSq j9"></td>
+                        <td class="gridSq j10"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>  
+        
+    </div>
+
+<!-- 
+
+x2 good vs evil
+
+div.game>table.game>tr.row*2>td.data*2
+
+div.comabatent.good>table.combatent.good>tr.row*3>td.col*2
+
+div.comabatent.evil
+    table.combatent.evil>tr.row*3>td.col*2
+
+
+    table.combatent>tr*3>td*2
+        name
+        force strength
+        force hits
+        turns
+        
+        whose turn
+        game status
+
+    table.grid>tr.r0>td.c0+td.c1+td.c2+td.c3+td.c4+td.c5+td.c6+td.c7+td.c8+td.c9+td.c10+tr.r1>td.r1+td.a1+td.a2+td.a3+td.a4+td.a5+td.a6+td.a7+td.a8+td.a9+td.a10
+        tr.r2>td.r2+td.b1+td.b2+td.b3+td.b4+td.b5+td.b6+td.b7+td.b8+td.b9+td.b10
+        tr.r3>td.r0+td.c1+td.c2+td.c3+td.c4+td.c5+td.c6+td.c7+td.c8+td.c9+td.c10
+        tr.r4>td.r0+td.d1+td.d2+td.d3+td.d4+td.d5+td.d6+td.d7+td.d8+td.d9+td.d10
+        tr.r5>td.r0+td.e1+td.e2+td.e3+td.e4+td.e5+td.e6+td.e7+td.e8+td.e9+td.e10
+        tr.r6>td.r0+td.f1+td.f2+td.f3+td.f4+td.f5+td.f6+td.f7+td.f8+td.f9+td.f10
+        tr.r7>td.r0+td.g1+td.g2+td.g3+td.g4+td.g5+td.g6+td.g7+td.g8+td.g9+td.g10
+        tr.r8>td.r0+td.h1+td.h2+td.h3+td.h4+td.h5+td.h6+td.h7+td.h8+td.h9+td.h10
+        tr.r9>td.r0+td.i1+td.i2+td.i3+td.i4+td.i5+td.i6+td.i7+td.i8+td.i9+td.i10
+        tr.r10>td.r0+td.j1+td.j2+td.j3+td.j4+td.j5+td.j6+td.j7+td.j8+td.j9+td.j10
+
+
+ -->
+
+
+
+</body>
+</html>

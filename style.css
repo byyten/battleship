@@ -1,0 +1,39 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+td {
+    min-width: 10rem;
+    min-height: 1.6rem;
+    text-align: center;
+}
+tr.gridSq { height: 2rem; background-color: rgba(0, 255, 255, 0.288); } 
+td.gridSq {
+    min-width: 1.6rem;
+    max-width: 1.6rem;
+    
+}
+td.colLabel, td.rowLabel { 
+    text-align: center;    
+    min-width: 1.6rem;
+    max-width: 1.6rem;
+}
+.vessel { background-color: darkslateblue;}
+.directhit { background-color:rgb(250, 162, 0)}
+.salvo { color: blue;  }
+
+.boards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.grids {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.grids table {
+    margin-right: 3rem;
+}
