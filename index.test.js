@@ -2,8 +2,14 @@
 const { enemies, allies } = require('./index')
 
 
+
+
+
+
 board = allies.board
 board = enemies.board
+
+
 
 
 // vesselLength

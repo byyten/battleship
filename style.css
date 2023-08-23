@@ -3,15 +3,19 @@ body {
     font-size: 12px;
 }
 
+table { margin-bottom: 3rem;}
 td {
     min-width: 10rem;
     min-height: 1.6rem;
-    text-align: center;
 }
-tr.gridSq { height: 2rem; background-color: rgba(0, 255, 255, 0.288); } 
+tr.gridSq { height: 2rem; background-color: rgba(0, 140, 255, 0.178); } 
 td.gridSq {
+    text-align: center;
     min-width: 1.6rem;
     max-width: 1.6rem;
+    min-height: 1.6rem;
+    max-height: 1.6rem;
+    
     
 }
 td.colLabel, td.rowLabel { 
@@ -19,11 +23,11 @@ td.colLabel, td.rowLabel {
     min-width: 1.6rem;
     max-width: 1.6rem;
 }
-.vessel { background-color: darkslateblue;}
-.directhit { background-color:rgb(250, 162, 0)}
-.salvo { color: blue;  }
+.vessel { background-color: rgba(71, 61, 139, 0.432);}
+.directhit { background-color: rgba(71, 61, 139, 0.432)}
+.salvo { color: blue; font-size: 1.4rem; }
 
-.boards {
+.boards, .data {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -36,4 +40,22 @@ td.colLabel, td.rowLabel {
 }
 .grids table {
     margin-right: 3rem;
+}
+
+.viz {
+    /* visibility: visible; */
+    opacity: 1;
+    border: 1px solid red
+}
+.hid {
+    /* visibility: hidden; */
+    opacity: 0.2;
+    border: 0
+}
+
+tr.vessel { background-color: transparent ;}
+.grid, .length { max-width: 1rem; min-width: 1rem }
+.vgrid {
+    background-color:  rgba(71, 61, 139, 0.432);
+    max-width: 1rem; min-width: 1rem
 }
