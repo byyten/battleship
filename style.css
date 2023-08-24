@@ -3,7 +3,7 @@ body {
     font-size: 12px;
 }
 
-button.deploy {
+button.deploy, button.reset {
     /* width: 6rem; */
     padding: 0.3rem 1rem;
     border: none;

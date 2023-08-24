@@ -1,6 +1,6 @@
 
 const vessels = ['submarine','destroyer','cruiser','battleship','aircraft carrier']
-class ship {
+class Ship {
     constructor (length, prfx = 'nato_') {
         this._length = length
         this._hits = 0
@@ -21,28 +21,6 @@ class ship {
     }
 }
 
-// class RowCol {
-//     constructor() {
-//         this.cols = 'abcdefghij'
-//         this.rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]        
-//     }
-//     rc (coord)  {
-//         let c
-//         let r 
-//         let n
-//         if (coord instanceof Array) {  // arrays are coordinates in their conventional sense
-//             c = this.cols[coord[0]] == undefined ? false : this.cols[coord[0]]
-//             r = this.rows[coord[1]] == undefined ?  'invalid' : this.rows[coord[1]]  // console.log([c, r])
-//             return  c && r !== 'invalid' ? this.cols[coord[0]] + this.rows[coord[1]] : false
-//         } else {
-//             // strings are grid references that are translated to coordinates
-//             c = this.cols.indexOf(coord.slice(0,1)) == -1  ? 'invalid' : this.cols.indexOf(coord.slice(0,1))
-//             n = Number(coord.slice(1)) - 1 
-//             r = n >= 0 && n < 10 ? n : 'invalid' 
-//             return ((c !== 'invalid' && r !== 'invalid') ? [c, r] : false )      
-//         } 
-//     }
-// }
 class RowCol {
     constructor() {
       this.cols = 'abcdefghij'
@@ -64,8 +42,111 @@ class RowCol {
               return ((c !== 'invalid' && r !== 'invalid') ? [c, r] : false )      
           } 
       }
-  }
-  
+        
+    isComplete = (array, targetLength) => (array.length === targetLength)	
+    isSequence = (val, array) => {
+        let copyAddedSort = array.slice(0)
+        copyAddedSort.push(val)
+        copyAddedSort.sort((a,b) => a-b)
+        return (copyAddedSort.at(-1) - copyAddedSort[0] + 1 === copyAddedSort.length)
+    }
+    isUniform = (array) => (array.reduce((prev, next) => prev += next, 0) / array.length === array[0])
+    isAdjacent = (val, array) => (val >= array[0] - 1 && val <= array.at(-1) + 1)
+    isIndeterminate = (array) => (array.length < 2 ? true : false)
+    contains = (val, array) => (array.includes(val))
+
+    decompose = (array) => {
+        // console.log(_board)
+        // if (!_board.rc) { console.log('must pass in the board.rc function'); return }
+        let _rowcols = array.map(_gridref => this.rc(_gridref) )  // rows are letters, cols are numbers in gridrefs
+        let _rows = _rowcols.map(_coord => _coord[0]).sort((a,b) => a-b)
+        let _cols = _rowcols.map(_coord => _coord[1]).sort((a,b) => a-b)    
+        return [ _rows, _cols ] // x ,y  
+    }
+    isHoriz = (array) => {
+        let _rows
+        let _cols
+        if (array.length >= 2) {
+            let res = this.decompose(array)
+            _rows = res[0]  
+            _cols = res[1] 
+            let _rowuniform = this.isUniform(_rows)
+            let _coluniform = this.isUniform(_cols)
+            // let _rowsequence =  _rows.at(-1) - _rows[0] + 1 === _rows.length  //isSequence(_rows)
+            // let _colsequence =  _cols.at(-1) - _cols[0] + 1 === _cols.length // isSequence(_cols)
+            
+            if (_rowuniform && !_coluniform ) { // && _rowsequence
+                return true // is horizontal
+            } else if (!_rowuniform && _coluniform ) { // && _colsequence
+                return false // is vertical
+            } else {
+                return -2 // is invalid
+            }
+        } else {
+            return -1 // is indeterminate i.e < length 2 
+        }
+    }
+    isValid = (gridref, array) => {
+        let valid = false
+        if (array.length == 0) {
+            console.log('zero length true')
+            valid = true
+        }
+        let _contains = array.includes(gridref)
+        let _isComplete = this.isComplete(array, _targetlength)
+        let row
+        let col
+        [row, col] = this.rc(gridref)
+        // console.log(` isValid row ${row}    col ${col}  `)
+
+        // [_rows, _cols]
+        let res = this.decompose(array)
+        let _rows = res[0] //._rows
+        let _cols = res[1] // ._cols
+
+        // let _rowcols = array.map(_gr => _board.rc(_gr))
+        // let _rows = _rowcols.map(_c => _c[0]).sort((a,b) => a-b)
+        // let _cols = _rowcols.map(_c => _c[1]).sort((a,b) => a-b) 
+        // [row, col] = _board.rc(gridref)
+        let _isAdjCols = this.isAdjacent(col, _cols)
+        let _isSeqCols = this.isSequence(col, _cols)
+        let _isUniformCols = this.isUniform(_cols)
+        let _isAdjRows = this.isAdjacent(row, _rows)
+        let _isSeqRows = this.isSequence(row, _rows)
+        let _isUniformRows = this.isUniform(_rows)
+
+        if (array.length == 1) {
+            if (!_contains && ((_isSeqRows && _isAdjRows && !_isSeqCols && _cols[0] === col) || ( _isSeqCols && _isAdjCols && !_isSeqRows && _rows[0] === row))) {
+                console.log('length one and is adjacent true')
+                valid = true
+            } else {
+                console.log('length one and not adjacent false')
+                valid = false
+            }
+        } else if (array.length >= 2) {
+            let _isHoriz = this.isHoriz(array)
+            console.log('horizontal ' + _isHoriz)
+            if ( !_contains && _isHoriz > -1) { // i.e. true (horizontal) or false (vertical)
+            //   if (_isHoriz && _isAdjCols && !_isUniformCols && _isSeqCols && !_isSeqRows && _isUniformRows && _isAdjRows ) { // && _isHoriz && _isAdjCols && _isUniformCols && _isSeqRows 
+                if (_isHoriz && _isSeqCols && _isUniformRows && _rows[0] === row ) { // && _isHoriz && _isAdjCols && _isUniformCols && _isSeqRows 
+                        console.log('horizontal, not in, isadjacent true ' )
+                valid = true
+            } else if ( !_isHoriz && _isSeqRows && _isUniformCols && _cols[0] === col) { //  && !_isHoriz && _isAdjRows && _isSeqCols && _isUniformRows 
+                        console.log('vertical, not in, isadjacent true ' )
+                valid = true
+            } else {
+                console.log(' drop thru invalid false ' )
+                valid = false
+            }
+            } else { // 
+            console.log('invalid for whatever reason (non adjacent or impossible (diagonal or width > 1))')
+            valid = false
+            }
+        }
+        return valid
+    }
+
+}
 
 class Board extends RowCol {
     constructor() {
@@ -181,17 +262,17 @@ class Board extends RowCol {
     isGridOccupied (gridrefs) { return gridrefs.map(ref => { return { ref: ref, occ: this._deployment.includes(ref) }}) }
 }
 
-class player {
+class Player {
     constructor (name, callSign) {
         this.name = name
         this.board = new Board()
-        this.ac = new ship(5, callSign)
-        this.bs = new ship(4, callSign)
-        this.cr = new ship(3, callSign)
-        this.ds1 = new ship(2, callSign)
-        this.ds2 = new ship(2, callSign)
-        this.sb1 = new ship(1, callSign)
-        this.sb2 = new ship(1, callSign)
+        this.ac = new Ship(5, callSign)
+        this.bs = new Ship(4, callSign)
+        this.cr = new Ship(3, callSign)
+        this.ds1 = new Ship(2, callSign)
+        this.ds2 = new Ship(2, callSign)
+        this.sb1 = new Ship(1, callSign)
+        this.sb2 = new Ship(1, callSign)
         this.fleet = [ this.ac, this.bs, this.cr, this.ds1, this.ds2, this.sb1, this.sb2 ]    
     }
     redeploy() {
@@ -216,10 +297,10 @@ class player {
     }
 }
 
-let attacker = new player('attacker', 'facha_')
+let attacker = new Player('attacker', 'facha_')
 // attacker.redeploy(attacker)    
 
-let defender = new player('defender', 'nato_')
+let defender = new Player('defender', 'nato_')
 // defender.redeploy(defender)
 
 /* 
@@ -249,20 +330,20 @@ const defenderDeployed = new Event('defenderDeployed', { bubbles: true})
 const attackerDeployed = new Event('attackerDeployed', { bubbles: true})
 
 
-class combatentUI { 
-    constructor(combatent, combatentui, opposition, oppositionui) {
+class CombatentUI { 
+    constructor(combatent, CombatentUI, opposition, oppositionui) {
         this._combatent = combatent
-        this._combatentui = combatentui
+        this._combatentui = CombatentUI
         this._opposition = opposition   
         this._oppositionui = oppositionui
-        this._name = combatentui.querySelector('td.name')
-        this._deployed = combatentui.querySelector('td.deployed')
-        this._strength = combatentui.querySelector('td.strength')
-        this._hits = combatentui.querySelector('td.hits')
+        this._name = CombatentUI.querySelector('td.name')
+        this._deployed = CombatentUI.querySelector('td.deployed')
+        this._strength = CombatentUI.querySelector('td.strength')
+        this._hits = CombatentUI.querySelector('td.hits')
         this._deployment = false
-        this._salvosAt = combatentui.querySelector('table.grid')
+        this._salvosAt = CombatentUI.querySelector('table.grid')
         this._attackGrids = this._salvosAt.querySelectorAll('td.gridSq')
-        this._deployedTo = combatentui.querySelector('table.deploy')
+        this._deployedTo = CombatentUI.querySelector('table.deploy')
         this._deployGrids = this._deployedTo.querySelectorAll('td.gridSq')
         this._deployGrids.forEach(grid => {
             grid.addEventListener('click',  (evt) => { 
@@ -282,9 +363,9 @@ class combatentUI {
                 }
             } )
           })
-        this._fleet = combatentui.querySelector('table.fleet')                                         
+        this._fleet = CombatentUI.querySelector('table.fleet')                                         
         console.log(this._fleet)                                                
-        this._fleet_vessels = combatentui.querySelectorAll('tr.vessel')
+        this._fleet_vessels = CombatentUI.querySelectorAll('tr.vessel')
         this._fleet_vessels.forEach((vssl, idx) => {
             vssl.setAttribute('data-idx', idx)
             vssl.addEventListener('click', (evt) => { this.startDeployVessel(vssl) }) 
@@ -346,7 +427,7 @@ class combatentUI {
     deployingVessel(evt) { // old style declarati on to maintain this context
         if (this._vesselToDeploy._vidx === -1 ) { return }
         let gridref = evt.target.classList[1]
-        if (isValid(gridref, this._vesselToDeploy._gridrefs)) {
+        if (this._combatent.board.isValid(gridref, this._vesselToDeploy._gridrefs)) {
           this._vesselToDeploy._gridrefs.push(gridref)
           evt.target.classList.add('vessel')
           
@@ -388,13 +469,14 @@ class combatentUI {
             this._salvosAt.classList.replace('opacityLo','opacityHi')
         }
         this._salvosAt.classList.replace('viz', 'hid')
-
+        this._deployFleet.disabled = false
         this.updateStrength()
         this.updateHits()  
         this.updateDeployed() 
     } 
     salvo (evt) {
-        evt.preventDefault()
+        // evt.preventDefault()
+        if (!this.inplay) { return } // not correct!
         if (this.turn) { 
             let gridref = evt.target.classList[1]
 
@@ -430,47 +512,46 @@ class combatentUI {
 let defenderui = document.querySelector('.combatent.defender')
 let attackerui = document.querySelector('.combatent.attacker')
 
-let force_defender = new combatentUI(defender, defenderui, attacker, attackerui)
-let force_attacker = new combatentUI(attacker, attackerui, defender, defenderui)
+let force_defender = new CombatentUI(defender, defenderui, attacker, attackerui)
+let force_attacker = new CombatentUI(attacker, attackerui, defender, defenderui)
 let combatentuis = { defender: force_defender, attacker: force_attacker }
 
-class game {
+class Game {
     constructor(combatentuis) {
         this.combatents = combatentuis // ['attacker', 'defender']
         this._game = document.querySelector('div.game')
         this._plays = this._game.querySelector('td.plays')
         this._play = this._game.querySelector('td.play')
         this._status = this._game.querySelector('td.status')
-        // this.turns = 0
-        // this.turn = 'attacker'
-        // this.notturn = 'defender'
-        // this._plays.textContent = 'none - deployment required' // 0 
-        // this._play.textContent = '' // 'Attacker'
-        // this._status.textContent = 'Setup: No force deployments'
-        // this.combatents[this.turn].turn = true
-        // this.combatents[this.notturn]._combatentui.querySelector('table.grid').classList.replace('opacityHi','opacityLo')
-
+        this._reset = this._game.querySelector('button.reset')
+        this._reset.addEventListener('click', () => this.resetGame() ) 
+    
         this.init()
+ 
         this._game.addEventListener('defenderDeployed', (evt) => {
             this._status.textContent = 'Defender forces deployed'
             this.combatents.defender._deployment = true
             if (this.combatents.attacker._deployment && this.combatents.defender._deployment ) {
-                this._status.textContent = "Forces deployed - commence battle" 
-                this.combatents.attacker._salvosAt.classList.replace('hid', 'viz')
-                this.combatents.defender._salvosAt.classList.replace('hid', 'viz')
-                this._plays.textContent = 0
-                this._play.textContent = this.turn
+                this.commencePlay()
+                // this._status.textContent = "Forces deployed - commence battle" 
+                // this.combatents.attacker._salvosAt.classList.replace('hid', 'viz')
+                // this.combatents.defender._salvosAt.classList.replace('hid', 'viz')
+                // this._plays.textContent = 0
+                // this._play.textContent = this.turn
+                // this.inplay = true
             }
         })
         this._game.addEventListener('attackerDeployed', (evt) => {
             this._status.textContent = 'Attacker forces deployed'
             this.combatents.attacker._deployment = true
             if (this.combatents.attacker._deployment && this.combatents.defender._deployment ) {
-                this._status.textContent = "Forces deployed - commence battle" 
-                this.combatents.attacker._salvosAt.classList.replace('hid', 'viz')
-                this.combatents.defender._salvosAt.classList.replace('hid', 'viz')
-                this._plays.textContent = 0
-                this._play.textContent = this.turn
+                this.commencePlay()
+                // this._status.textContent = "Forces deployed - commence battle" 
+                // this.combatents.attacker._salvosAt.classList.replace('hid', 'viz')
+                // this.combatents.defender._salvosAt.classList.replace('hid', 'viz')
+                // this._plays.textContent = 0
+                // this._play.textContent = this.turn
+                // this.inplay = true
             }
         })
         
@@ -484,7 +565,20 @@ class game {
         }))
         
     }
+    commencePlay () {
+        this._status.textContent = "Forces deployed - commence battle" 
+        this.combatents.attacker._salvosAt.classList.replace('hid', 'viz')
+        this.combatents.defender._salvosAt.classList.replace('hid', 'viz')
+        this.combatents.attacker._salvosAt.classList.replace('opacityLo','opacityHi')
+        this._plays.textContent = 0
+        this._play.textContent = this.turn
+        this.inplay = true
+        this.combatents.attacker.inplay = this.combatents.defender.inplay = true
+    } 
     init = () => {
+        this.inplay = false
+        this.combatents.attacker.inplay = false
+        this.combatents.defender.inplay = false
         this.turns = 0
         this.turn = 'attacker'
         this.notturn = 'defender'
@@ -537,6 +631,7 @@ class game {
         // _that._deployedTo.classList.replace('viz', 'hid')
     }
     switchBoard() {
+        if (!this.inplay) { return }
         let gameover = this.combatents[this.notturn]._combatent.gameOver()
         if (gameover) {
             this.combatents[this.turn]._salvosAt.classList.replace('opacityLo','opacityHi')
@@ -544,11 +639,12 @@ class game {
 
             let hits = _game.combatents[this.notturn]._combatent.board.hits().length
             let msghdr = `Game Over\n--------------------------------------\n `
-            let msg = `Battle won by ${this.turn} in ${parseInt(this.turns/2)} salvos\ncausing ${hits} direct hits `
+            let msg = `Battle won by ${this.turn} in ${parseInt(this.turns/2 + 1)} salvos\ncausing ${hits} direct hits `
             this._status.textContent = msg
             this._play.textContent = ''
             console.log(msghdr + msg)
             alert (msghdr + msg)
+            this._reset.classList.replace('hid','viz')
              
         } else {
             this.nextTurn()
@@ -567,7 +663,8 @@ class game {
             vssl.querySelectorAll('td.vgrid').forEach(vgrid=> vgrid.classList.remove('opacityLo'))
         })
         _this.reset()
-        _this._combatent.board.board = new Board()
+        // _this._combatent.board.board = new Board()
+        _this._combatent.board = new Board()
         _this._deployGrids.forEach(grid => {
             grid.classList.remove('vessel', 'salvo', 'directhit')
             grid.innerHTML = ''
@@ -579,33 +676,13 @@ class game {
         let _that = this.combatents.attacker
         this.resetCombatent(_that)   
         this.init()     
+        this._reset.classList.replace('viz','hid')
+        
       }
 }
 
 
-_game = new game(combatentuis)
-// _game.combatents[_game.turn].turn = true
-// _game.combatents[_game.notturn]._combatentui.querySelector('table.grid').classList.replace('opacityHi','opacityLo')
-
-// _game.combatents.defender._attackGrids.forEach(grid => grid.addEventListener('click', (evt) => { _game.switchBoard() }))
-// _game.combatents.attacker._attackGrids.forEach(grid => grid.addEventListener('click', (evt) => { _game.switchBoard() }))
-
-
-// // on a attacker deploy button click
-// _game._status.textContent = 'Attacker (the initiator) to deploy forces first'
-// _game.switchDeployment( _that, _this)
-// // deploy attacker forces
-// // update status board
-// _game._status.textContent = 'Attacker forces deployed - Defender to deploy'
-// _game.switchDeployment(  _this, _that)
-// // deploy defender forces
-// // update status board
-// _game._status.textContent = 'Attacker & Defender forces are deployed - commence battle'
-
-// // play - make attack grids visible
-// _this._salvosAt.classList.replace('hid','viz')
-// _that._salvosAt.classList.replace('hid','viz')
-
+_game = new Game(combatentuis)
 
 
 // in development for vessel deployment
@@ -1309,26 +1386,26 @@ destroyFleet = (navy) => {
     navy.state()
 }
 function evilReset() {
-    attacker = player('Fachists', 'facha_')
+    attacker = Player('Fachists', 'facha_')
     //attacker.redeploy(attacker)    
 } 
 function defenderReset ()  {
-    // defender = player('defender', 'nato_')
+    // defender = Player('defender', 'nato_')
     //defender.redeploy(defender)
 } 
 
  */
 
 
-// combatentUI = (combatent, combatentui, oppositionui) => {
+// CombatentUI = (combatent, CombatentUI, oppositionui) => {
 //     let _combatent = combatent
 //     let _opposition = oppositionui
-//     let _ui = combatentui
-//     let _name = combatentui.querySelector('td.name')
-//     let _deployed = combatentui.querySelector('td.deployed')
-//     let _strength = combatentui.querySelector('td.strength')
-//     let _hits = combatentui.querySelector('td.hits')
-//     let _attackGrids = combatentui.querySelectorAll('td.gridSq')
+//     let _ui = CombatentUI
+//     let _name = CombatentUI.querySelector('td.name')
+//     let _deployed = CombatentUI.querySelector('td.deployed')
+//     let _strength = CombatentUI.querySelector('td.strength')
+//     let _hits = CombatentUI.querySelector('td.hits')
+//     let _attackGrids = CombatentUI.querySelectorAll('td.gridSq')
 //     let _deployment = {}
 //     function updateStrength() { (_strength.textContent = Math.round((1 - _combatent.board.hits().length / 18) * 100) + '%')}
 //     function updateHits() {(_hits.textContent = _combatent.board.hits().length + '/' + _combatent.board.deployment().length)}
@@ -1380,8 +1457,8 @@ function defenderReset ()  {
 // defendergrids = document.querySelector('.combatent.good')
 // attackergrids = document.querySelector('.combatent.evil')
 
-// force_defender = combatentUI(defender, defendergrids, attackergrids)
-// force_attacker = combatentUI(attacker, attackergrids, defendergrids)
+// force_defender = CombatentUI(defender, defendergrids, attackergrids)
+// force_attacker = CombatentUI(attacker, attackergrids, defendergrids)
 
 
 
@@ -1545,13 +1622,13 @@ function defenderReset ()  {
 // player = (name, callSign) => {
 //     let board = {} 
 //     board = Board()
-//     let ac = new ship(5, callSign)
-//     let bs = new ship(4, callSign)
-//     let cr = new ship(3, callSign)
-//     let ds1 = new ship(2, callSign)
-//     let ds2 = new ship(2, callSign)
-//     let sb1 = new ship(1, callSign)
-//     let sb2 = new ship(1, callSign)
+//     let ac = new Ship(5, callSign)
+//     let bs = new Ship(4, callSign)
+//     let cr = new Ship(3, callSign)
+//     let ds1 = new Ship(2, callSign)
+//     let ds2 = new Ship(2, callSign)
+//     let sb1 = new Ship(1, callSign)
+//     let sb2 = new Ship(1, callSign)
 //     let fleet = [ ac, bs, cr, ds1, ds2, sb1, sb2 ]
 //     // let _hits = []
 //     redeploy = () => {
