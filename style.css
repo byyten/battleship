@@ -3,9 +3,21 @@ body {
     font-size: 12px;
 }
 
+button.deploy {
+    /* width: 6rem; */
+    padding: 0.3rem 1rem;
+    border: none;
+    border-radius: 3px;
+    background-color: rgba(0, 128, 0, 0.66);
+    color: whitesmoke;
+}
+div.head {
+    display: flex;
+    justify-content: center;
+}
 table { margin-bottom: 3rem;}
 td {
-    min-width: 10rem;
+    min-width: 1rem;
     min-height: 1.6rem;
 }
 tr.gridSq { height: 2rem; background-color: rgba(0, 140, 255, 0.178); } 
@@ -14,9 +26,13 @@ td.gridSq {
     min-width: 1.6rem;
     max-width: 1.6rem;
     min-height: 1.6rem;
-    max-height: 1.6rem;
-    
-    
+    max-height: 1.6rem; 
+}
+td.type { min-width: 10rem;}
+td.label {
+    text-align: left;
+    font-weight: 500;
+    min-width: 8rem;
 }
 td.colLabel, td.rowLabel { 
     text-align: center;    
@@ -43,19 +59,23 @@ td.colLabel, td.rowLabel {
 }
 
 .viz {
-    /* visibility: visible; */
-    opacity: 1;
-    border: 1px solid red
+    visibility: visible;
 }
 .hid {
-    /* visibility: hidden; */
+    visibility: hidden;
+}
+.opacityLo {
     opacity: 0.2;
     border: 0
 }
+.opacityHi {
+    opacity: 1;
+    border: 1px solid red
+}
 
 tr.vessel { background-color: transparent ;}
-.grid, .length { max-width: 1rem; min-width: 1rem }
-.vgrid {
+td.grid, .length { max-width: 1rem; min-width: 1rem }
+td.vgrid {
     background-color:  rgba(71, 61, 139, 0.432);
     max-width: 1rem; min-width: 1rem
 }
